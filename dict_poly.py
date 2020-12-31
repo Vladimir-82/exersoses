@@ -1,4 +1,5 @@
 import math
+import time
 def insert_factorial():
     """
     сумма цивр факториал 100 math
@@ -20,7 +21,10 @@ def manual_fuctorial():
     return str(sum(int(x) for x in str(res)))
 
 
-
+start=time.time()
 print(insert_factorial())
-print(manual_fuctorial())
+print(time.time()-start)
 
+start=time.time()
+print(manual_fuctorial())
+print(time.time()-start)
