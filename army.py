@@ -44,10 +44,10 @@ def battle(unit1, unit2):
             print(unit1.get_info(), 'урон=', unit2.damage)
     if unit1.health <= 0:
         print(unit1.name, 'убит')
+        return unit1
     else:
         print(unit2.name, 'убит')
-
-    #print(unit1.name, 'убит' if unit1.health <= 0 else unit2.name, 'убит')
+        return unit2
 
 Light_warriors_list = []
 Dark_warriors_list = []
@@ -55,20 +55,27 @@ Neitral_warriors_list = []
 
 
 Dart_Waider = Army_dark_side('Waider', 120, 12, 'Dark')
-Dark_warriors_list.append(Dart_Waider.name)
 Dart_Sidius = Army_dark_side('Sidius', 100, 15, 'Dark')
-Dark_warriors_list.append(Dart_Sidius.name)
 Master_Ioda = Army_light_side('Ioda', 100, 15, 'Light')
-Light_warriors_list.append(Master_Ioda.name)
 Obi_Van = Army_light_side('Obi_Van', 150, 15, 'Light')
-Light_warriors_list.append(Obi_Van.name)
 Bobo_Fet = Neitral('Bobo', 50, 5, 'Neitral')
-Neitral_warriors_list.append(Bobo_Fet.name)
+for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet:
+    if i.side == 'Dark':
+        Dark_warriors_list.append(i)
+    elif i.side == 'Light':
+        Light_warriors_list.append(i)
+    else:
+        Neitral_warriors_list.append(i)
 
-battle(Dart_Waider, Obi_Van)
 
-#while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
-     #choce_dark = choce_batle(Dark_warriors_list)
-     #choce_light = choce_batle(Light_warriors_list)
-     #print(Dark_warriors_list[choce_dark], 'fight us', Light_warriors_list[choce_light])
 
+
+while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
+    choce_dark = choce_batle(Dark_warriors_list)
+    choce_light = choce_batle(Light_warriors_list)
+    print(Dark_warriors_list[choce_dark], 'fight us', Light_warriors_list[choce_light])
+    strike = battle(Dark_warriors_list[choce_dark], Light_warriors_list[choce_light])
+    #if strike in Dark_warriors_list:
+        #Dark_warriors_list.pop(strike)
+    #elif strike in Light_warriors_list:
+        #Light_warriors_list.pop(strike)
