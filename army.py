@@ -24,14 +24,14 @@ class Neitral(Warrior):
         super().__init__(name, health, damage)
         self.side = side
 
-#def choce_batle(Army):
-    #choice = random.randint(0, len(Army)-1)
-    #return choice
+def choce_batle(Army):#??????
+    choice = random.randint(0, len(Army)-1)
+    return choice
 
-def choce_batle(Army):
-    random.shuffle(Army)
-    gen = (unit for unit in Army)
-    return next(gen)
+#def choce_batle(Army):
+    #random.shuffle(Army)
+    #gen = (unit for unit in Army)
+    #return next(gen)
 
 
 def battle(unit1, unit2):
@@ -59,12 +59,12 @@ Dark_warriors_list = []
 Neitral_warriors_list = []
 Reinforcement_list = []
 
-Dart_Waider = Army_dark_side('Waider', 120, 15, 'Dark')
-Dart_Sidius = Army_dark_side('Sidius', 100, 15, 'Dark')
-Dart_Mall = Army_dark_side('Mall', 100, 10, 'Dark')
-Master_Ioda = Army_light_side('Ioda', 100, 15, 'Light')
-R2D2 = Army_light_side('R2D2', 100, 15, 'Light')
-Obi_Van = Army_light_side('Obi_Van', 150, 15, 'Light')
+Dart_Waider = Army_dark_side('Waider', 120, 25, 'Dark')
+Dart_Sidius = Army_dark_side('Sidius', 100, 25, 'Dark')
+Dart_Mall = Army_dark_side('Mall', 100, 20, 'Dark')
+Master_Ioda = Army_light_side('Ioda', 100, 25, 'Light')
+R2D2 = Army_light_side('R2D2', 100, 25, 'Light')
+Obi_Van = Army_light_side('Obi_Van', 150, 25, 'Light')
 Bobo_Fet = Neitral('Bobo', 50, 5, 'Neitral')
 for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet, R2D2, Dart_Mall:
     if i.side == 'Dark':
@@ -76,12 +76,19 @@ for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet, R2D2, Dart_Ma
 
 print([i.get_info() for i in Light_warriors_list], 'ПРОТИВ', [i.get_info() for i in Dark_warriors_list])
 while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
-    choce_dark = choce_batle(Dark_warriors_list)
-    while choce_dark in Reinforcement_list:
-        choce_dark = choce_batle(Dark_warriors_list)
-    choce_light = choce_batle(Light_warriors_list)
-    while choce_light in Reinforcement_list:
-        choce_light = choce_batle(Light_warriors_list)
+    if len(Dark_warriors_list) == 1:
+        choce_dark = Dark_warriors_list[0]
+    else:
+        choce_dark = Dark_warriors_list[choce_batle(Dark_warriors_list)]
+        while choce_dark in Reinforcement_list:
+            choce_dark = Dark_warriors_list[choce_batle(Dark_warriors_list)]
+
+    if len(Light_warriors_list) == 1:
+        choce_light = Light_warriors_list[0]
+    else:
+        choce_light = Light_warriors_list[choce_batle(Light_warriors_list)]
+        while choce_light in Reinforcement_list:
+            choce_light = Light_warriors_list[choce_batle(Light_warriors_list)]
 
     print(choce_dark.get_info(), 'fight us', choce_light.get_info())
     strike = battle(choce_dark, choce_light)
