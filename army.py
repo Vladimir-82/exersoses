@@ -6,7 +6,6 @@ class Warrior:
         self.health = health
         self.damage = damage
 
-
     def get_info(self):
         return  self.name, self.health, 'HP'
 
@@ -76,12 +75,14 @@ while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
     strike = battle(Dark_warriors_list[choce_dark], Light_warriors_list[choce_light])
     if strike in Dark_warriors_list:
         Dark_warriors_list.remove(strike)
-        print('Ещё в стою:', [i.get_info() for i in Dark_warriors_list if len(Dark_warriors_list) >= 1])
-        print('Ещё в стою:', [i.get_info() for i in Light_warriors_list if len(Light_warriors_list) >= 1])
+        if len(Dark_warriors_list) >= 1:
+            print('Ещё в стою у ситов:', [i.get_info() for i in Dark_warriors_list])
+
     elif strike in Light_warriors_list:
         Light_warriors_list.remove(strike)
-        print('Ещё в стою:', [i.get_info() for i in Light_warriors_list if len(Light_warriors_list) >= 1])
-        print('Ещё в стою:', [i.get_info() for i in Dark_warriors_list if len(Dark_warriors_list) >= 1])
+        if len(Light_warriors_list) >= 1:
+            print('Ещё в стою у джедаев:', [i.get_info() for i in Light_warriors_list])
+
 if len(Dark_warriors_list) < 1:
     print('Джедаи победили!')
     print('Выжили:', [i.get_info() for i in Light_warriors_list])
