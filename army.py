@@ -57,7 +57,7 @@ def battle(unit1, unit2):
 Light_warriors_list = []
 Dark_warriors_list = []
 Neitral_warriors_list = []
-
+Reinforcement_list = []
 
 Dart_Waider = Army_dark_side('Waider', 120, 15, 'Dark')
 Dart_Sidius = Army_dark_side('Sidius', 100, 15, 'Dark')
@@ -77,17 +77,24 @@ for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet, R2D2, Dart_Ma
 print([i.get_info() for i in Light_warriors_list], 'ПРОТИВ', [i.get_info() for i in Dark_warriors_list])
 while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
     choce_dark = choce_batle(Dark_warriors_list)
+    while choce_dark in Reinforcement_list:
+        choce_dark = choce_batle(Dark_warriors_list)
     choce_light = choce_batle(Light_warriors_list)
+    while choce_light in Reinforcement_list:
+        choce_light = choce_batle(Light_warriors_list)
+
     print(choce_dark.get_info(), 'fight us', choce_light.get_info())
     strike = battle(choce_dark, choce_light)
     if strike in Dark_warriors_list:
         Dark_warriors_list.remove(strike)
         if len(Dark_warriors_list) >= 1:
+            Reinforcement_list.append(choce_light)
             print('Ещё в строю у ситтов:', [i.get_info() for i in Dark_warriors_list])
 
     elif strike in Light_warriors_list:
         Light_warriors_list.remove(strike)
         if len(Light_warriors_list) >= 1:
+            Reinforcement_list.append(choce_dark)
             print('Ещё в строю у джедаев:', [i.get_info() for i in Light_warriors_list])
 
 if len(Dark_warriors_list) < 1:

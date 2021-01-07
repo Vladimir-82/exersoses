@@ -1,8 +1,5 @@
-import random
-a = [1, 5, 6, 9]
-random.shuffle(a)
-gen=(i for i in a)
-print(next(gen))
-print(next(gen))
-print(next(gen))
-print(next(gen))
+a = [2,5,6,7]
+try:
+
+if 11 in a:
+    print(a)
