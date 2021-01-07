@@ -8,7 +8,7 @@ class Warrior:
 
 
     def get_info(self):
-        return  self.name, self.health
+        return  self.name, self.health, 'HP'
 
 class Army_dark_side(Warrior):
     def __init__(self, name, health, damage, side):
@@ -57,9 +57,10 @@ Neitral_warriors_list = []
 Dart_Waider = Army_dark_side('Waider', 120, 12, 'Dark')
 Dart_Sidius = Army_dark_side('Sidius', 100, 15, 'Dark')
 Master_Ioda = Army_light_side('Ioda', 100, 15, 'Light')
+R2D2 = Army_light_side('R2D2', 100, 30, 'Light')
 Obi_Van = Army_light_side('Obi_Van', 150, 15, 'Light')
 Bobo_Fet = Neitral('Bobo', 50, 5, 'Neitral')
-for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet:
+for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet, R2D2:
     if i.side == 'Dark':
         Dark_warriors_list.append(i)
     elif i.side == 'Light':
@@ -67,15 +68,23 @@ for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, Bobo_Fet:
     else:
         Neitral_warriors_list.append(i)
 
-
-
-
+print([i.get_info() for i in Light_warriors_list], 'ПРОТИВ', [i.get_info() for i in Dark_warriors_list])
 while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
     choce_dark = choce_batle(Dark_warriors_list)
     choce_light = choce_batle(Light_warriors_list)
-    print(Dark_warriors_list[choce_dark], 'fight us', Light_warriors_list[choce_light])
+    print((Dark_warriors_list[choce_dark]).get_info(), 'fight us', (Light_warriors_list[choce_light]).get_info())
     strike = battle(Dark_warriors_list[choce_dark], Light_warriors_list[choce_light])
-    #if strike in Dark_warriors_list:
-        #Dark_warriors_list.pop(strike)
-    #elif strike in Light_warriors_list:
-        #Light_warriors_list.pop(strike)
+    if strike in Dark_warriors_list:
+        Dark_warriors_list.remove(strike)
+        print('Ещё в стою:', [i.get_info() for i in Dark_warriors_list if len(Dark_warriors_list) >= 1])
+        print('Ещё в стою:', [i.get_info() for i in Light_warriors_list if len(Light_warriors_list) >= 1])
+    elif strike in Light_warriors_list:
+        Light_warriors_list.remove(strike)
+        print('Ещё в стою:', [i.get_info() for i in Light_warriors_list if len(Light_warriors_list) >= 1])
+        print('Ещё в стою:', [i.get_info() for i in Dark_warriors_list if len(Dark_warriors_list) >= 1])
+if len(Dark_warriors_list) < 1:
+    print('Джедаи победили!')
+    print('Выжили:', [i.get_info() for i in Light_warriors_list])
+else:
+    print('Ситты победили!')
+    print('Выжили:', [i.get_info() for i in Dark_warriors_list])
