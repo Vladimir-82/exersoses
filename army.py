@@ -47,7 +47,7 @@ def battle(unit1, unit2):
         return unit2
 
 def reinforcement_update(battle_list, reinforcement_list):
-    if set(reinforcement_list) & set(battle_list) == set(battle_list):
+    if len(battle_list) == len(reinforcement_list):
         reinforcement_list.clear()
     return reinforcement_list
 
@@ -56,13 +56,15 @@ Dark_warriors_list = []
 Reinforcement_list_sitt = []
 Reinforcement_list_jadi = []
 
-Dart_Waider = Army_dark_side('Waider', 120, 25, 'Dark')
-Dart_Sidius = Army_dark_side('Sidius', 100, 25, 'Dark')
+Dart_Waider = Army_dark_side('Waider', 90, 25, 'Dark')
+Dart_Sidius = Army_dark_side('Sidius', 100, 35, 'Dark')
 Dart_Mall = Army_dark_side('Mall', 100, 20, 'Dark')
-Master_Ioda = Army_light_side('Ioda', 100, 25, 'Light')
+Bobo_Fet = Army_dark_side('Fet', 100, 20, 'Dark')
+Luck_Skywalker = Army_light_side('Luck', 100, 35, 'Light')
+Master_Ioda = Army_light_side('Ioda', 90, 25, 'Light')
 R2D2 = Army_light_side('R2D2', 100, 25, 'Light')
-Obi_Van = Army_light_side('Obi_Van', 150, 25, 'Light')
-for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, R2D2, Dart_Mall:
+Obi_Van = Army_light_side('Obi_Van', 100, 25, 'Light')
+for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, R2D2, Dart_Mall, Bobo_Fet, Luck_Skywalker:
     if i.side == 'Dark':
         Dark_warriors_list.append(i)
     else:
@@ -71,35 +73,30 @@ for i in Dart_Waider, Dart_Sidius, Master_Ioda, Obi_Van, R2D2, Dart_Mall:
 print([i.get_info() for i in Light_warriors_list], 'ПРОТИВ', [i.get_info() for i in Dark_warriors_list])
 while len(Dark_warriors_list) > 0 and len(Light_warriors_list) > 0:
     choce_dark = choce_batle(Dark_warriors_list)
-    if len(Dark_warriors_list) == 1:
-        choce_dark = Dark_warriors_list[0]
-    else:
-        while choce_dark in Reinforcement_list_sitt:
-            choce_dark = choce_batle(Dark_warriors_list)
+    reinforcement_update(Dark_warriors_list, Reinforcement_list_sitt)
+    while choce_dark in Reinforcement_list_sitt:
+        choce_dark = choce_batle(Dark_warriors_list)
 
     choce_light = choce_batle(Light_warriors_list)
-    if len(Light_warriors_list) == 1:
-        choce_light = Light_warriors_list[0]
-    else:
-        while choce_light in Reinforcement_list_jadi:
-            choce_light = choce_batle(Light_warriors_list)
+    reinforcement_update(Light_warriors_list, Reinforcement_list_jadi)
+    while choce_light in Reinforcement_list_jadi:
+        choce_light = choce_batle(Light_warriors_list)
 
     print(choce_dark.get_info(), 'fight us', choce_light.get_info())
     strike = battle(choce_dark, choce_light)
     if strike in Dark_warriors_list:
         Dark_warriors_list.remove(strike)
         if len(Dark_warriors_list) >= 1:
-            Reinforcement_list_jadi.append(choce_light)
-            print('Ещё в строю у ситтов:', [i.get_info() for i in Dark_warriors_list])
-            Reinforcement_list_jadi = reinforcement_update(Light_warriors_list, Reinforcement_list_jadi)
-
+            if choce_light not in Reinforcement_list_jadi:
+                Reinforcement_list_jadi.append(choce_light)
+                print('Ещё в строю у ситтов:', [i.get_info() for i in Dark_warriors_list])
 
     elif strike in Light_warriors_list:
         Light_warriors_list.remove(strike)
         if len(Light_warriors_list) >= 1:
-            Reinforcement_list_sitt.append(choce_dark)
-            print('Ещё в строю у джедаев:', [i.get_info() for i in Light_warriors_list])
-            Reinforcement_list_sitt = reinforcement_update(Dark_warriors_list, Reinforcement_list_sitt)
+            if choce_dark not in Reinforcement_list_sitt:
+                Reinforcement_list_sitt.append(choce_dark)
+                print('Ещё в строю у джедаев:', [i.get_info() for i in Light_warriors_list])
 
 if len(Dark_warriors_list) < 1:
     print('Джедаи победили!')
